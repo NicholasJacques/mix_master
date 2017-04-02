@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-  before_action :set_playlist, only: [:show, :edit]
+  before_action :set_playlist, only: [:show, :edit, :update, :destroy]
   before_action :set_songs, only: [:new, :edit]
 
   def index
@@ -11,8 +11,12 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    @playlist = Playlist.create(playlist_params)
-    redirect_to @playlist
+    @playlist = Playlist.new(playlist_params)
+    if @playlist.save
+      redirect_to @playlist
+    else
+      render :new
+    end
   end
 
   def show
@@ -22,11 +26,17 @@ class PlaylistsController < ApplicationController
   end
 
   def update
-    if @playlist = Playlist.update(playlist_params)
-      redirect_to playlist_path
+    if @playlist.update(playlist_params)
+      redirect_to @playlist
     else
       render :edit
     end
+  end
+
+  def destroy
+    @playlist.destroy
+    
+    redirect_to playlists_path
   end
 
   private
