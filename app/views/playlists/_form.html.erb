@@ -1,4 +1,6 @@
 <%= form_for(@playlist) do |f| %>
+  <%= render partial: "shared/errors", locals: { target: @playlist }%>
+
   <%= f.label "Title:" %>
   <%= f.text_field :name %>
 
